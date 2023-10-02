@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "json-benchmark"
 include(":app")
- 
+include(":benchmark")

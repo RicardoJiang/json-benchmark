@@ -1,0 +1,58 @@
+package com.jiang.json.benchmark
+
+import com.squareup.moshi.JsonClass
+
+
+@JsonClass(generateAdapter = true)
+data class MoshiKRResponse(
+    val users: List<MoshiKRUser>,
+    val status: String,
+    val is_real_json: Boolean
+)
+
+@JsonClass(generateAdapter = true)
+data class MoshiKRUser(
+    val _id: String,
+    val index: Int,
+    val guid: String,
+    val is_active: Boolean,
+    val balance: String,
+    val picture: String,
+    val age: Int,
+    val name: MoshiKRName,
+    val company: String,
+    val email: String,
+    val address: String,
+    val about: String,
+    val registered: String,
+    val latitude: Double,
+    val longitude: Double,
+    val tags: List<String>,
+    val range: List<Int>,
+    val friends: List<MoshiKRFriend>,
+    val images: List<MoshiKRImage>,
+    val greeting: String,
+    val favorite_fruit: String,
+    val eye_color: String,
+    val phone: String
+)
+
+@JsonClass(generateAdapter = true)
+class MoshiKRName(
+    val first: String,
+    val last: String
+)
+
+@JsonClass(generateAdapter = true)
+data class MoshiKRFriend(
+    val id: Int,
+    val name: String
+)
+
+@JsonClass(generateAdapter = true)
+class MoshiKRImage(
+    val id: String,
+    val format: String,
+    val url: String,
+    val description: String
+)
