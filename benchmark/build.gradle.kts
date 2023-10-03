@@ -68,5 +68,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     implementation("com.alibaba.fastjson2:fastjson2:2.0.40.android4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("com.google.protobuf:protobuf-java:3.24.3")
+    implementation("com.google.protobuf:protobuf-java-util:3.24.3")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 }

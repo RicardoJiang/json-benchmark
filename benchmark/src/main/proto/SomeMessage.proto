@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+message SomeMessage {
+
+  message Name {
+    string first = 1;
+    string last = 2;
+  }
+
+  message Friends {
+    uint32 id = 1;
+    string name = 2;
+  }
+
+  message Images {
+    string id = 1;
+    string format = 2;
+    string url = 3;
+    string description = 4;
+  }
+
+  message Users {
+    string _id = 1;
+    uint32 index = 2;
+    string guid = 3;
+    bool is_active = 4;
+    string balance = 5;
+    string picture = 6;
+    uint32 age = 7;
+    string eye_color = 8;
+    Name name = 9;
+    string company = 10;
+    string email = 11;
+    string phone = 12;
+    string address = 13;
+    string about = 14;
+    string registered = 15;
+    double latitude = 16;
+    double longitude = 17;
+    repeated string tags = 18;
+    repeated uint32 range = 19;
+    repeated Friends friends = 20;
+    repeated Images images = 21;
+    string greeting = 22;
+    string favorite_fruit = 23;
+  }
+
+  repeated Users users = 1;
+  string status = 2;
+  bool is_real_json = 3;
+}

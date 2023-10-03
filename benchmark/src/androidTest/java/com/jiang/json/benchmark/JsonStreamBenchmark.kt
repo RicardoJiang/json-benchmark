@@ -32,34 +32,35 @@ import java.io.InputStreamReader
 @LargeTest
 @RunWith(Parameterized::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class JsonStreamBenchmark(val resourceName: String) {
+class JsonStreamBenchmark(val jsonName: String, val pbName: String) {
 
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "size={0}")
         fun data(): List<Array<*>> {
             return listOf(
-                arrayOf("small.json"),
-                arrayOf("medium.json"),
-                arrayOf("large.json")
+                arrayOf("small.json", "small.bin"),
+                arrayOf("medium.json", "medium.bin"),
+                arrayOf("large.json", "large.bin")
             )
         }
     }
 
     @get:Rule
     val benchmarkRule = BenchmarkRule()
-    private val resource = Resources.getResource(resourceName)
+    private val jsonResource = Resources.getResource(jsonName)
+    private val pbResource = Resources.getResource(pbName)
 
     @Test
     fun testGson() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val gson = Gson()
             val reader = gson.newJsonReader(InputStreamReader(source))
             val result = gson.fromJson<KRResponse>(reader, KRResponse::class.java)
-            println("gson $resourceName size: ${result?.users?.size}")
+            println("gson $jsonName size: ${result?.users?.size}")
         }
     }
 
@@ -67,12 +68,12 @@ class JsonStreamBenchmark(val resourceName: String) {
     fun testMoshi() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
             val jsonAdapter = moshi.adapter(MoshiKRResponse::class.java)
             val result = jsonAdapter.fromJson(source.source().buffer())
-            println("moshi $resourceName size: ${result?.users?.size}")
+            println("moshi $jsonName size: ${result?.users?.size}")
         }
     }
 
@@ -80,13 +81,13 @@ class JsonStreamBenchmark(val resourceName: String) {
     fun testJackson() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val mapper = ObjectMapper()
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             mapper.disable(DeserializationFeature.WRAP_EXCEPTIONS)
             val result = mapper.readValue(source, KRResponse::class.java)
-            println("jackson $resourceName size: ${result?.users?.size}")
+            println("jackson $jsonName size: ${result?.users?.size}")
         }
     }
 
@@ -94,10 +95,10 @@ class JsonStreamBenchmark(val resourceName: String) {
     fun testFastJson() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val result = JSON.parseObject<KRResponse>(source, KRResponse::class.java)
-            println("fastJson $resourceName size: ${result?.users?.size}")
+            println("fastJson $jsonName size: ${result?.users?.size}")
         }
     }
 
@@ -106,11 +107,11 @@ class JsonStreamBenchmark(val resourceName: String) {
     fun testKotlinSerialization() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val json = Json { ignoreUnknownKeys = true }
             val result = json.decodeFromStream<KSResponse>(source)
-            println("KotlinSerialization $resourceName size: ${result.users.size}")
+            println("KotlinSerialization $jsonName size: ${result.users.size}")
         }
     }
 
@@ -118,10 +119,10 @@ class JsonStreamBenchmark(val resourceName: String) {
     fun testJsonObject() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val result = JSONObjectSerializer().parse(source.bufferedReader().readText())
-            println("JSONObject $resourceName size: ${result.users.size}")
+            println("JSONObject $jsonName size: ${result.users.size}")
         }
     }
 
@@ -129,10 +130,21 @@ class JsonStreamBenchmark(val resourceName: String) {
     fun testJSONReader() {
         benchmarkRule.measureRepeated {
             val source = runWithTimingDisabled {
-                resource.openStream()
+                jsonResource.openStream()
             }
             val result = JSONReaderSerializer().parse(source)
-            println("JSONReader $resourceName size: ${result.users.size}")
+            println("JSONReader $jsonName size: ${result.users.size}")
+        }
+    }
+
+    @Test
+    fun testProtobuf(){
+        benchmarkRule.measureRepeated {
+            val source = runWithTimingDisabled {
+                pbResource.openStream()
+            }
+            val result = SomeMessageOuterClass.SomeMessage.parseFrom(source)
+            println("pb $jsonName size: ${result?.usersList?.size}")
         }
     }
 }
