@@ -1,12 +1,12 @@
-English | **[简体中文](README_zh.md)**
+**[English](README.md)** | 简体中文
 
 # json-benchmark
-- Use the Jetpack Microbenchmark library for benchmark testing to avoid the impact of CPU frequency reduction and JIT optimization on test results.
-- The test case input includes three json files of size 12kb, 78kb, and 238kb to test the impact of json size on deserialization speed.
-- The test results are divided into multiple runs with sufficient preheating and one run without preheating to test the difference in deserialization speed under cold start.
+- 通过 Jetpack Microbenchmark 库进行基准测试，以避免 CPU 降频，JIT 优化对测试结果的影响
+- 测试用例输入包括 12kb, 78kb, 238kb 大小的三个 json 文件，以测试 json 大小对反序列化速度的影响
+- 测试结果分为多次运行充分预热与一次运行无预热两种情况，以测试在冷启动情况下反序列化速度的差异
 
-## Test results
-### Multi-run test results
+## 测试结果
+### 多次运行测试结果
 |                      | small json     | medium json    | large json     |
 |----------------------|----------------|----------------|----------------|
 | Kotlin Serialization | 165,936   ns   | 997,228   ns   | 2,933,098   ns |
@@ -20,7 +20,7 @@ English | **[简体中文](README_zh.md)**
 
 ![](https://raw.gitmirror.com/RicardoJiang/resource/main/2023/october/DeserializationSpeedMultiTimes.png)
 
-### One-run test results
+### 一次运行测试结果
 |                      | small json      | medium json     | large json      |
 |----------------------|-----------------|-----------------|-----------------|
 | Kotlin Serialization | 4,114,323   ns  | 15,739,688   ns | 17,428,906   ns |
@@ -34,10 +34,10 @@ English | **[简体中文](README_zh.md)**
 
 ![](https://raw.gitmirror.com/RicardoJiang/resource/main/2023/october/DeserializationSpeedRunOnce.png)
 
-## Kudos test results
-[Kudos](https://github.com/kanyun-inc/Kudos) is short for Kotlin utilities for deserializing objects. It is designed to make it safer and easier to deserializing Kotlin classes with Gson and Jackson.
+## Kudos 测试结果
+[Kudos](https://github.com/kanyun-inc/Kudos) 是 Kotlin utilities for deserializing objects 的缩写。它可以解决使用 Gson、Jackson 等框架反序列化 JSON 到 Kotlin 类时所存在的空安全问题和构造器默认值失效的问题。
 
-Based on the working mechanism of Kudos, it is not difficult to think that the running time of Kudos will be slightly longer than the corresponding JSON serialization framework. The following is a comparison of the running time of Kudos and the corresponding JSON serialization framework:
+基于 Kudos 的工作机制不难想到，Kudos 的运行耗时会略微多于对应的 JSON 序列化框架。下面是 Kudos 与对应的 JSON 序列化框架的运行耗时对比：
 
 |               | small json     | medium json    | large json     |
 |---------------|----------------|----------------|----------------|
@@ -46,7 +46,5 @@ Based on the working mechanism of Kudos, it is not difficult to think that the r
 | Jackson       | 1,035,010   ns | 1,750,709   ns | 3,450,974   ns |
 | Kudos-Jackson | 1,261,026   ns | 2,030,874   ns | 3,939,600   ns |
 
-## More
-[Performance comparison of commonly used JSON libraries](https://android-performance-optimization.github.io/practical/speed/json-serialization-speed/)
-
-
+## 更多
+[常用 JSON 库性能对比](https://android-performance-optimization.github.io/practical/speed/json-serialization-speed/)
