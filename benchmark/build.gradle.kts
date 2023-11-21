@@ -12,6 +12,8 @@ kudos {
     gson = true
     // Enable Kudos.Jackson. Add kudos-jackson to dependencies.
     jackson = true
+    // Enable Kudos.AndroidJsonReader. Add kudos-android-json-reader to dependencies.
+    androidJsonReader = true
 }
 
 android {

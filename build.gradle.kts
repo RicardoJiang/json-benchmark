@@ -5,5 +5,5 @@ plugins {
     id("com.android.library") version "7.2.1" apply false
     id("androidx.benchmark") version "1.1.1" apply false
     id("com.google.devtools.ksp").version("1.8.20-1.0.11")
-    id("com.kanyun.kudos") version "1.8.20-1.0.0" apply false
+    id("com.kanyun.kudos") version "1.8.20-1.0.2-SNAPSHOT" apply false
 }

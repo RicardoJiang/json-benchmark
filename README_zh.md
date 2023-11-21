@@ -37,14 +37,27 @@
 ## Kudos 测试结果
 [Kudos](https://github.com/kanyun-inc/Kudos) 是 Kotlin utilities for deserializing objects 的缩写。它可以解决使用 Gson、Jackson 等框架反序列化 JSON 到 Kotlin 类时所存在的空安全问题和构造器默认值失效的问题。
 
-基于 Kudos 的工作机制不难想到，Kudos 的运行耗时会略微多于对应的 JSON 序列化框架。下面是 Kudos 与对应的 JSON 序列化框架的运行耗时对比：
+基于 Kudos 的工作机制不难想到，Kudos 的运行耗时会略微多于对应的 JSON 序列化框架。下面是 Kudos 与对应的 JSON 序列化框架的运行耗时对比。
 
-|               | small json     | medium json    | large json     |
-|---------------|----------------|----------------|----------------|
-| Gson          | 412,375   ns   | 1,374,838   ns | 3,641,904   ns |
-| Kudos-Gson    | 517,123   ns   | 1,686,568   ns | 4,311,910   ns |
-| Jackson       | 1,035,010   ns | 1,750,709   ns | 3,450,974   ns |
-| Kudos-Jackson | 1,261,026   ns | 2,030,874   ns | 3,939,600   ns |
+### 多次运行测试结果
+|                  | small json     | medium json    | large json     |
+|------------------|----------------|----------------|----------------|
+| Gson             | 412,375   ns   | 1,374,838   ns | 3,641,904   ns |
+| Kudos-Gson       | 517,123   ns   | 1,686,568   ns | 4,311,910   ns |
+| Jackson          | 1,035,010   ns | 1,750,709   ns | 3,450,974   ns |
+| Kudos-Jackson    | 1,261,026   ns | 2,030,874   ns | 3,939,600   ns |
+| JsonReader       | 190,302   ns   | 1,176,479   ns | 3,464,174   ns |
+| Kudos-JsonReader | 215,974   ns   | 1,359,587   ns | 4,019,024   ns |
+
+### 一次运行测试结果
+|                  | small json      | medium json     | large json      |
+|------------------|-----------------|-----------------|-----------------|
+| Gson             | 3,974,219   ns  | 4,666,927   ns  | 8,271,355   ns  |
+| Kudos-Gson       | 4,531,718   ns  | 6,244,479   ns  | 11,160,782   ns |
+| Jackson          | 12,821,094   ns | 13,930,625   ns | 15,989,791   ns |
+| Kudos-Jackson    | 13,233,750   ns | 15,674,010   ns | 18,641,302   ns |
+| JsonReader       | 662,032   ns    | 2,056,666   ns  | 4,624,687   ns  |
+| Kudos-JsonReader | 734,907   ns    | 2,362,010   ns  | 6,212,917   ns  |
 
 ## 更多
 [常用 JSON 库性能对比](https://android-performance-optimization.github.io/practical/speed/json-serialization-speed/)

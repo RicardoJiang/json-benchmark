@@ -39,12 +39,25 @@ English | **[简体中文](README_zh.md)**
 
 Based on the working mechanism of Kudos, it is not difficult to think that the running time of Kudos will be slightly longer than the corresponding JSON serialization framework. The following is a comparison of the running time of Kudos and the corresponding JSON serialization framework:
 
-|               | small json     | medium json    | large json     |
-|---------------|----------------|----------------|----------------|
-| Gson          | 412,375   ns   | 1,374,838   ns | 3,641,904   ns |
-| Kudos-Gson    | 517,123   ns   | 1,686,568   ns | 4,311,910   ns |
-| Jackson       | 1,035,010   ns | 1,750,709   ns | 3,450,974   ns |
-| Kudos-Jackson | 1,261,026   ns | 2,030,874   ns | 3,939,600   ns |
+### Multi-run test results
+|                  | small json     | medium json    | large json     |
+|------------------|----------------|----------------|----------------|
+| Gson             | 412,375   ns   | 1,374,838   ns | 3,641,904   ns |
+| Kudos-Gson       | 517,123   ns   | 1,686,568   ns | 4,311,910   ns |
+| Jackson          | 1,035,010   ns | 1,750,709   ns | 3,450,974   ns |
+| Kudos-Jackson    | 1,261,026   ns | 2,030,874   ns | 3,939,600   ns |
+| JsonReader       | 190,302   ns   | 1,176,479   ns | 3,464,174   ns |
+| Kudos-JsonReader | 215,974   ns   | 1,359,587   ns | 4,019,024   ns |
+
+### One-run test results
+|                  | small json      | medium json     | large json      |
+|------------------|-----------------|-----------------|-----------------|
+| Gson             | 3,974,219   ns  | 4,666,927   ns  | 8,271,355   ns  |
+| Kudos-Gson       | 4,531,718   ns  | 6,244,479   ns  | 11,160,782   ns |
+| Jackson          | 12,821,094   ns | 13,930,625   ns | 15,989,791   ns |
+| Kudos-Jackson    | 13,233,750   ns | 15,674,010   ns | 18,641,302   ns |
+| JsonReader       | 662,032   ns    | 2,056,666   ns  | 4,624,687   ns  |
+| Kudos-JsonReader | 734,907   ns    | 2,362,010   ns  | 6,212,917   ns  |
 
 ## More
 [Performance comparison of commonly used JSON libraries](https://android-performance-optimization.github.io/practical/speed/json-serialization-speed/)

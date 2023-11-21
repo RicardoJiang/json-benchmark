@@ -9,6 +9,7 @@ import com.google.common.io.Resources
 import com.google.gson.Gson
 import com.kanyun.kudos.gson.kudosGson
 import com.kanyun.kudos.jackson.kudosObjectMapper
+import com.kanyun.kudos.json.reader.KudosAndroidJsonReader
 import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
@@ -65,7 +66,7 @@ class KudosBenchmark(val resourceName: String) {
             }
             val gson = kudosGson()
             val reader = gson.newJsonReader(InputStreamReader(source))
-            val result = gson.fromJson<KudosResponse>(reader, KudosResponse::class.java)
+            val result = gson.fromJson<KudosGsonResponse>(reader, KudosGsonResponse::class.java)
             println("kudosGson $resourceName size: ${result?.users?.size}")
         }
     }
@@ -93,8 +94,30 @@ class KudosBenchmark(val resourceName: String) {
             val mapper = kudosObjectMapper()
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             mapper.disable(DeserializationFeature.WRAP_EXCEPTIONS)
-            val result = mapper.readValue(source, KudosResponse::class.java)
+            val result = mapper.readValue(source, KudosJacksonResponse::class.java)
             println("kudosJackson $resourceName size: ${result?.users?.size}")
+        }
+    }
+
+    @Test
+    fun testJsonReader() {
+        benchmarkRule.measureRepeated {
+            val source = runWithTimingDisabled {
+                resource.openStream()
+            }
+            val result = JSONReaderSerializer().parse(source)
+            println("JSONReader $resourceName size: ${result.users.size}")
+        }
+    }
+
+    @Test
+    fun testKudosJsonReader(){
+        benchmarkRule.measureRepeated {
+            val source = runWithTimingDisabled {
+                resource.openStream()
+            }
+            val result = KudosAndroidJsonReader.fromJson<KudosJsonReaderResponse>(source)
+            println("kudosAndroidJsonReader $resourceName size: ${result.users?.size}")
         }
     }
 }
